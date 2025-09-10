@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PickleDink (PDINK) - The Currency of the Court</title>
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --dark-blue: #003366;
+            --bright-green: #8DC63F;
+            --white: #FFFFFF;
+            --black: #000000;
+            --dark-green: #6da030;
+            --light-blue: #004880;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-blue);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        h1, h2, h3, h4 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--bright-green);
+            color: var(--dark-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-green);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--bright-green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bright-green);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+
+        .text-accent {
+            color: var(--bright-green);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(0, 51, 102, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--bright-green);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .logo-accent {
+            color: var(--bright-green);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--bright-green);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--light-blue) 100%);
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(141, 198, 63, 0.1);
+            top: -125px;
+            right: -125px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(141, 198, 63, 0.1);
+            bottom: -90px;
+            left: -90px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contract-address {
+            display: flex;
+            align-items: center;
+            background: rgba(141, 198, 63, 0.1);
+            padding: 12px 18px;
+            border-radius: 50px;
+            border: 1px solid var(--bright-green);
+            max-width: fit-content;
+        }
+
+        .contract-address p {
+            margin-bottom: 0;
+            margin-right: 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        #copy-ca {
+            background: var(--bright-green);
+            border: none;
+            color: var(--dark-blue);
+            padding: 6px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        #copy-ca:hover {
+            background: var(--dark-green);
+            transform: scale(1.1);
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--bright-green);
+            color: var(--dark-blue);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* About Section */
+        .about {
+            background: var(--dark-blue);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(141, 198, 63, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--bright-green);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(141, 198, 63, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: var(--bright-green);
+        }
+
+        .feature-card h3 {
+            color: var(--bright-green);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            background: var(--light-blue);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--bright-green);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 30px;
+            position: relative;
+            margin: 35px 0;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(even) {
+            align-self: flex-end;
+            justify-content: flex-start;
+            padding-left: 30px;
+            padding-right: 0;
+            left: 50%;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--bright-green);
+            border: 4px solid var(--dark-blue);
+            right: -9px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-marker {
+            left: -9px;
+            right: auto;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 22px;
+            border-radius: 15px;
+            border: 1px solid rgba(141, 198, 63, 0.2);
+            width: 100%;
+        }
+
+        .timeline-content h3 {
+            color: var(--bright-green);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .completed .timeline-content {
+            border-color: var(--bright-green);
+        }
+
+        .current .timeline-content {
+            background: rgba(141, 198, 63, 0.1);
+            border-color: var(--bright-green);
+        }
+
+        /* Platform Section */
+        .platform {
+            background: var(--dark-blue);
+            text-align: center;
+        }
+
+        .platform-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .platform-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .platform-feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(141, 198, 63, 0.2);
+        }
+
+        .platform-feature i {
+            font-size: 2.2rem;
+            color: var(--bright-green);
+            margin-bottom: 20px;
+        }
+
+        .platform-feature h3 {
+            color: var(--bright-green);
+            font-size: 1.3rem;
+        }
+
+        /* Get Started Section */
+        .get-started {
+            background: var(--light-blue);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(141, 198, 63, 0.2);
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: var(--bright-green);
+            color: var(--dark-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            color: var(--bright-green);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: var(--dark-blue);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid rgba(141, 198, 63, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: var(--white);
+            text-align: left;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(141, 198, 63, 0.1);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer.active {
+            padding: 18px;
+            max-height: 500px;
+        }
+
+        /* Social Links Section */
+       /* Social Links Section */
+.social-links {
+  text-align: center;
+  padding: 60px 20px;
+  background: #0a0a0a; /* dark background */
+}
+
+.social-links .section-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.text-accent {
+  color: #4ade80; /* green accent (change to your theme color) */
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f1f1f;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: #4ade80; /* hover accent color */
+  color: #0a0a0a; /* contrast */
+  transform: scale(1.1);
+}
+
+        .dexscreener-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--bright-green);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .dexscreener-link:hover {
+            background: var(--bright-green);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 50px 0 25px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-brand .logo {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--bright-green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .nav-links li {
+                margin-left: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark-blue);
+                padding: 20px;
+                border-top: 1px solid var(--bright-green);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .contract-address {
+                flex-direction: column;
+                text-align: center;
+                max-width: 100%;
+            }
+            
+            .contract-address p {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 0;
+                left: 0;
+            }
+            
+            .timeline-marker {
+                left: 11px;
+                right: auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content {
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card, .step, .platform-feature {
+                padding: 20px;
+            }
+            
+            .social-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">P<span class="logo-accent">DINK</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">What is PDINK?</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#platform">Platform</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>The <span class="text-accent">Currency</span> of the Court.</h1>
+                <p>PickleDink (PDINK) powers the future of pickleball—where every dink, drive, and victory earns its worth on the Solana blockchain.</p>
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary">Learn More</a>
+                    <a href="#platform" class="btn btn-secondary">Join the Platform</a>
+                </div>
+                <div class="contract-address">
+                    <p>CA: <span id="ca-text">Fy4HJwQrUqEWKnsfA48Re9RRKZZvGcFEcMRiGD5gNwDM</span></p>
+                    <button id="copy-ca"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="coming-soon-badge">Platform Launching Q4 2025 - Q1 2026</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">What is <span class="text-accent">PDINK</span>?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>The Token</h3>
+                    <p>PDINK is the digital currency native to the PicklePayouts ecosystem, built on the Solana blockchain (using the Radium token standard).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Earn & Compete</h3>
+                    <p>Use PDINK to enter tournaments, wager on matches, and win big through automated smart contracts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Govern the Game</h3>
+                    <p>Token holders will help shape the future of the platform through community governance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap">
+        <div class="container">
+            <h2 class="section-title">Our <span class="text-accent">Roadmap</span></h2>
+            <div class="timeline">
+                <div class="timeline-item completed">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Q2 2025 - Genesis</h3>
+                        <p>Token Launch on Solana. Community Genesis.</p>
+                    </div>
+                </div>
+                <div class="timeline-item current">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Q3 2025 - Foundation</h3>
+                        <p>Website & Community Hub Launch. Whitepaper Release.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Q4 2025 - Platform Development</h3>
+                        <p>PicklePayouts.com Alpha Development. Tournament System Design.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Q1 2026 - Platform Launch</h3>
+                        <p>Platform Launch. Wallet Integration. First Live Tournaments.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Q2 2026 - Expansion</h3>
+                        <p>Marketplace Prototype. Enhanced Features. Mobile Optimization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Section -->
+    <section id="platform" class="platform">
+        <div class="container">
+            <h2 class="section-title">PickleDink <span class="text-accent">Platform</span></h2>
+            <div class="platform-content">
+                <p>We're excited to announce that the official PickleDink Platform is currently in development!</p>
+                <p>The platform will allow users to connect their wallets, view PDINK balances, enter tournaments, and manage their pickleball gaming experience all in one place.</p>
+                
+                <div class="coming-soon-badge">Coming Q4 2025 - Q1 2026</div>
+                
+                <div class="platform-features">
+                    <div class="platform-feature">
+                        <i class="fas fa-wallet"></i>
+                        <h3>Wallet Integration</h3>
+                        <p>Connect your Solana wallet to manage your PDINK tokens seamlessly</p>
+                    </div>
+                    <div class="platform-feature">
+                        <i class="fas fa-chess"></i>
+                        <h3>Tournaments</h3>
+                        <p>Join competitive tournaments with PDINK entry fees and prizes</p>
+                    </div>
+                    <div class="platform-feature">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Track Performance</h3>
+                        <p>Monitor your gameplay stats and earnings history</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section class="get-started">
+        <div class="container">
+            <h2 class="section-title">Get <span class="text-accent">Started</span></h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Get a Wallet</h3>
+                    <p>Download Phantom or Solflare to get started.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get SOL</h3>
+                    <p>Fund your wallet with SOL for transaction fees.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get PDINK</h3>
+                    <p>Acquire PDINK to join the platform and start playing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked <span class="text-accent">Questions</span></h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">What is PickleDink (PDINK)?<i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer">
+                        <p>PickleDink (PDINK) is the utility token that powers the PicklePayouts ecosystem, a platform for pickleball players to compete, wager, and earn rewards on the Solana blockchain using the Radium token standard.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What blockchain is PDINK on?<i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer">
+                        <p>PDINK is built on the Solana blockchain, which offers high speed and low transaction costs. It uses the Radium token standard within the Solana ecosystem.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">How can I use PDINK?<i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer">
+                        <p>PDINK is used for tournament entry fees, match wagering, earning rewards, marketplace purchases, and eventually community governance on the PicklePayouts platform.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Where can I buy PDINK?<i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer">
+                        <p>PDINK is available on decentralized exchanges (DEXs) on the Solana network. You can track prices and trade on platforms like Raydium and Jupiter.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">When will the platform be available?<i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer">
+                        <p>The PickleDink Platform is currently in development and is scheduled for release between Q4 2025 and Q1 2026. It will allow users to connect wallets, view balances, and participate in tournaments.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What is the total supply of PDINK?<i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer">
+                        <p>PDINK has a fixed total supply of 100,000,000 tokens, all of which were released at minting with no inflationary mechanism.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Links Section -->
+  <!-- Social Links Section -->
+<section class="social-links">
+  <div class="container">
+    <h2 class="section-title">Join the <span class="text-accent">Community</span></h2>
+    <div class="social-icons">
+      <a href="https://x.com/pickledinkcoin" class="social-icon" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://t.me/pickledink" class="social-icon" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-telegram"></i>
+      </a>
+    </div>
+  </div>
+            <a href="https://dexscreener.com/solana/1rhedZCRzeYfwoKsVEVnmM5MjVd18r6AwpAraEe7uJh" class="dexscreener-link" target="_blank">
+                <i class="fas fa-chart-line"></i> View on DexScreener
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">P<span class="logo-accent">DINK</span></div>
+                    <p>The Currency of the Court</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#roadmap">Roadmap</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <a href="#">Whitepaper</a>
+                    <a href="#">Audit Report</a>
+                    <a href="#">Documentation</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PickleDrink (PDINK). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Copy Contract Address
+        document.getElementById('copy-ca').addEventListener('click', function() {
+            const caText = document.getElementById('ca-text').textContent;
+            navigator.clipboard.writeText(caText).then(() => {
+                const originalHtml = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    this.innerHTML = originalHtml;
+                }, 2000);
+            });
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const answer = button.nextElementSibling;
+                
+                // Close other open items
+                document.querySelectorAll('.faq-answer').forEach(item => {
+                    if (item !== answer && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                button.classList.toggle('active');
+                answer.classList.toggle('active');
+            });
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 33, 66, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.2)';
+            } else {
+                header.style.background = 'rgba(0, 51, 102, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
